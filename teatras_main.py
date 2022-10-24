@@ -129,11 +129,11 @@ def ivesti_vaidmeni():
         return ivesti_vaidmeni()
     spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
     if spektaklis_choice:
-        spektaklis.aktoriai.append(aktorius_choice)
         session.commit()
     else:
         print("\x1B[1mTokio spektkalio ID nėra.\x1B[0m")
         return ivesti_vaidmeni()
+    spektaklis.aktoriai.append(aktorius_choice)
     vaidmuo = Vaidmuo(vaidmuo = vaidmuo, aktorius_id = aktorius_id, spektaklis_id = spektaklis_id)
     session.add(vaidmuo)
     session.commit()
@@ -383,7 +383,7 @@ def atnaujinti_vaidmeni():
                     print("\t-", aktorius)
             aktorius_id = int(input("Įveskite aktoriaus ID: "))
         except ValueError:
-            print("Blogas aktoriaus ID, bandykite dar kart1.")
+            print("Blogas aktoriaus ID, bandykite dar kartą.")
             return atnaujinti_vaidmeni()
         aktorius_choice = session.query(Aktorius).get(aktorius_id)
         if aktorius_choice:
@@ -532,6 +532,7 @@ def delete():
                     trinamas_vaidmuo = session.query(Vaidmuo).get(vaidmuo_pasirinkimas)
                     if trinamas_vaidmuo:
                         session.delete(trinamas_vaidmuo)
+                        
                         session.commit()
                         print(f"Vaidmuo {trinamas_vaidmuo} -- sėkmingai ištrintas/a.")
                     else:
