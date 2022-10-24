@@ -23,7 +23,7 @@ class Sale(Base):
 
 
     def __repr__(self):
-        return f"{self.id}) {self.pavadinimas}, adresas: {self.adresas}."
+        return f"{self.id}) {self.pavadinimas}, adresas: \x1B[3m{self.adresas}\x1B[0m."
 
 class Spektaklis(Base):
     __tablename__ = 'spektaklis'
@@ -37,7 +37,7 @@ class Spektaklis(Base):
     vaidmenys = relationship("Vaidmuo", back_populates = 'spektaklis')
 
     def __repr__(self):
-        return f"{self.id}) {self.pavadinimas}, salė: {self.sale}, režisierius {self.rezisierius}."
+        return f"{self.id}) \x1B[1m„{self.pavadinimas}“\x1B[0m, salė: {self.sale}, režisierius {self.rezisierius}."
 
 
 class Rezisierius(Base):
@@ -51,7 +51,7 @@ class Rezisierius(Base):
 
 
     def __repr__(self):
-        return f"{self.id}) {self.vardas} {self.pavarde} : {self.gimimo_data}"
+        return f"{self.id}) \x1B[1m{self.vardas} {self.pavarde}\x1B[0m : \x1B[3m{self.gimimo_data}\x1B[0m"
 
 
 class Aktorius(Base):
@@ -64,7 +64,7 @@ class Aktorius(Base):
     vaidmenys = relationship("Vaidmuo", back_populates = 'aktorius')
 
     def __repr__(self):
-        return f"{self.id}) {self.vardas} {self.pavarde} : {self.gimimo_data}"
+        return f"{self.id}) \x1B[1m{self.vardas} {self.pavarde}\x1B[0m : \x1B[3m{self.gimimo_data}\x1B[0m"
 
 
 class Vaidmuo(Base):
@@ -77,7 +77,7 @@ class Vaidmuo(Base):
     spektaklis = relationship("Spektaklis", back_populates = 'vaidmenys')
 
     def __repr__(self):
-        return f"{self.id}) {self.vaidmuo}, atliekamas aktoriaus/ės {self.aktorius}, spektaklyje {self.spektaklis}"
+        return f"{self.id}) \x1B[1;3m{self.vaidmuo}\x1B[0m, atliekamas aktoriaus/ės {self.aktorius}, spektaklyje {self.spektaklis}"
 
 
 if __name__ == "__main__":

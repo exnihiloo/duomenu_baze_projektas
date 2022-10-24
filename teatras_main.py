@@ -21,7 +21,7 @@ def ivesti_rezisieriu():
         pavarde = input("Įveskite režisieriaus pavardę: ")
         gimimo_data = datetime.strptime(input("Įveskite režisieriaus gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
     except ValueError:
-        print("Blogai įvesta režisieriaus/ės gimimo data.")
+        print("\x1B[1mBlogai įvesta režisieriaus/ės gimimo data.\x1B[0m")
         return ivesti_rezisieriu()
     else:
         rezisierius = Rezisierius(vardas = vardas, pavarde = pavarde, gimimo_data = gimimo_data)
@@ -37,7 +37,7 @@ def ivesti_aktoriu():
         pavarde = input("Įveskite aktoriaus/ės pavardę: ")
         gimimo_data = datetime.strptime(input("Įveskite aktoriaus/ės gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
     except ValueError:
-        print("Blogai įvesta aktoriaus/ės gimimo data.")
+        print("\x1B[1mBlogai įvesta aktoriaus/ės gimimo data.\x1B[0m")
         return ivesti_aktoriu()
     else:
         aktorius = Aktorius(vardas = vardas, pavarde = pavarde, gimimo_data = gimimo_data)
@@ -51,7 +51,7 @@ def ivesti_spektakli():
         pavadinimas = input("Įveskite spektaklio pavadinimą: ")
         sales = session.query(Sale).all()
         if len(sales) == 0:
-            print("Salių duomenų bazė tuščia")
+            print("\x1B[1mSalių duomenų bazė tuščia\x1B[0m")
             return ivesti_spektakli()
         else:
             print("Salės: ")
@@ -59,17 +59,17 @@ def ivesti_spektakli():
                 print("\t-", sale)
         sales_id = int(input("Įveskite salės ID: "))
     except ValueError:
-        print("Salės ID negali būti raidė.")
+        print("\x1B[1mSalės ID negali būti raidė.\x1B[0m")
         return ivesti_spektakli()
     sales_choice = session.query(Sale).get(sales_id)
     if sales_choice:
         session.commit()
     else:
-        print("Tokio salės ID nėra.")
+        print("\x1B[1mTokio salės ID nėra.\x1B[0m")
         return ivesti_spektakli()
     rezisieriai = session.query(Rezisierius).all()
     if len(rezisieriai) == 0:
-        print("Režisierių duomenų bazė tuščia.")
+        print("\x1B[1mRežisierių duomenų bazė tuščia.\x1B[0m")
         return ivesti_spektakli()
     else:
         print("Režisieriai: ")
@@ -78,13 +78,13 @@ def ivesti_spektakli():
     try:
         rezisierius_id = int(input("Įveskite režisieriaus ID: "))  
     except ValueError:
-        print("Režisieriaus ID negali būti raidė.")
+        print("\x1B[1mRežisieriaus ID negali būti raidė.\x1B[0m")
         return ivesti_spektakli()
     rezisierius_choice = session.query(Rezisierius).get(rezisierius_id)
     if rezisierius_choice:
         session.commit()
     else:
-        print("Tokio režisieriaus ID nėra.")
+        print("\x1B[1mTokio režisieriaus ID nėra.\x1B[0m")
         return ivesti_spektakli()
     spektaklis = Spektaklis(pavadinimas = pavadinimas, sale_id = sales_id, rezisierius_id = rezisierius_id)
     session.add(spektaklis)
@@ -98,7 +98,7 @@ def ivesti_vaidmeni():
         vaidmuo = input("Įveskite personažo vardą: ")
         aktoriai = session.query(Aktorius).all()
         if len(aktoriai) == 0:
-            print("Aktorių duomenų bazė tuščia")
+            print("\x1B[1mAktorių duomenų bazė tuščia\x1B[0m")
             return ivesti_vaidmeni()
         else:
             print("Aktoriai: ")
@@ -106,17 +106,17 @@ def ivesti_vaidmeni():
                 print("\t-", aktorius)
         aktorius_id = int(input("Įveskite aktoriaus/ės ID: "))
     except ValueError:
-        print("Aktoriaus/ės ID negali būti raidė.")
+        print("\x1B[1mAktoriaus/ės ID negali būti raidė.\x1B[0m")
         return ivesti_vaidmeni()
     aktorius_choice = session.query(Aktorius).get(aktorius_id)
     if aktorius_choice:
         session.commit()
     else:
-        print("Tokio aktoriaus ID nėra.")
+        print("\x1B[1mTokio aktoriaus ID nėra.\x1B[0m")
         return ivesti_vaidmeni()
     spektakliai = session.query(Spektaklis).all()
     if len(spektakliai) == 0:
-        print("Spektaklių duomenų bazė tuščia.")
+        print("\x1B[1mSpektaklių duomenų bazė tuščia.\x1B[0m")
         return ivesti_vaidmeni()
     else:
         print("Spektakliai: ")
@@ -125,14 +125,14 @@ def ivesti_vaidmeni():
     try:
         spektaklis_id = int(input("Įveskite spektaklio ID: "))  
     except ValueError:
-        print("Spektaklio ID negali būti raidė.")
+        print("\x1B[1mSpektaklio ID negali būti raidė.\x1B[0m")
         return ivesti_vaidmeni()
     spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
     if spektaklis_choice:
         spektaklis.aktoriai.append(aktorius_choice)
         session.commit()
     else:
-        print("Tokio spektkalio ID nėra.")
+        print("\x1B[1mTokio spektkalio ID nėra.\x1B[0m")
         return ivesti_vaidmeni()
     vaidmuo = Vaidmuo(vaidmuo = vaidmuo, aktorius_id = aktorius_id, spektaklis_id = spektaklis_id)
     session.add(vaidmuo)
@@ -143,7 +143,7 @@ def ivesti_vaidmeni():
 def saliu_perziura():
     sales = session.query(Sale).all()
     if len(sales) == 0:
-        print("Teatro salių duomenų bazė tuščia.")
+        print("\x1B[1mTeatro salių duomenų bazė tuščia.\x1B[0m")
     else:
         print("Salės:")
         for sale in sales:
@@ -152,7 +152,7 @@ def saliu_perziura():
 def rezisieriu_perziura():
     rezisiariai = session.query(Rezisierius).all()
     if len(rezisiariai) == 0:
-        print("Teatro režisierių duomenų bazė tuščia.")
+        print("\x1B[1mTeatro režisierių duomenų bazė tuščia.\x1B[0m")
     else:
         print("Režisieriai:")
         for rezisierius in rezisiariai:
@@ -161,7 +161,7 @@ def rezisieriu_perziura():
 def aktoriu_perziura():
     aktoriai = session.query(Aktorius).all()
     if len(aktoriai) == 0:
-        print("Teatro aktorių duomenų bazė tuščia.")
+        print("\x1B[1mTeatro aktorių duomenų bazė tuščia.\x1B[0m")
     else:
         print("Aktoriai:")
         for aktorius in aktoriai:
@@ -170,7 +170,7 @@ def aktoriu_perziura():
 def spektakliu_perziura():
     spektakliai = session.query(Spektaklis).all()
     if len(spektakliai) == 0:
-        print("Teatro spektaklių duomenų bazė tuščia.")
+        print("\x1B[1mTeatro spektaklių duomenų bazė tuščia.\x1B[0m")
     else:
         print("Spektakliai:")
         for spektaklis in spektakliai:
@@ -179,7 +179,7 @@ def spektakliu_perziura():
 def vaidmenu_perziura():
     vaidmenys = session.query(Vaidmuo).all()
     if len(vaidmenys) == 0:
-        print("Spektaklių vaidmenų duomenų bazė tuščia.")
+        print("\x1B[1mSpektaklių vaidmenų duomenų bazė tuščia.\x1B[0m")
     else:
         print("Vaidmenys:")
         for vaidmuo in vaidmenys:
@@ -191,7 +191,7 @@ def pasirinkti_sale():
     try:
         sales_id = int(input("Įveskite salės ID: "))
     except ValueError:
-        print("Salės ID turi būti skaičius.")
+        print("\x1B[1mSalės ID turi būti skaičius.\x1B[0m")
         return pasirinkti_sale()
     else:
         if sales_id:
@@ -207,7 +207,7 @@ def pasirinkti_rezisieriu():
     try:
         rezisieriaus_id = int(input("Įveskite režisieriaus ID: "))
     except ValueError:
-        print("Režisieriaus ID turi būti skaičius.")
+        print("\x1B[1mRežisieriaus ID turi būti skaičius.\x1B[0m")
         return pasirinkti_rezisieriu()
     else:
         if rezisieriaus_id:
@@ -223,7 +223,7 @@ def pasirinkti_aktoriu():
     try:
         aktoriaus_id = int(input("Įveskite aktoriaus/ės ID: "))
     except ValueError:
-        print("Aktoriaus/ės ID turi būti skaičius.")
+        print("\x1B[1mAktoriaus/ės ID turi būti skaičius.\x1B[0m")
         return pasirinkti_aktoriu()
     else:
         if aktoriaus_id:
@@ -239,7 +239,7 @@ def pasirinkti_spektakli():
     try:
         spektaklio_id = int(input("Įveskite spektaklio ID: "))
     except ValueError:
-        print("Spektaklio ID turi būti skaičius.")
+        print("\x1B[1mSpektaklio ID turi būti skaičius.\x1B[0m")
         return pasirinkti_spektakli()
     else:
         if spektaklio_id:
@@ -256,7 +256,7 @@ def pasirinkti_vaidmeni():
     try:
         vaidmens_id = int(input("Įveskite vaidmens ID: "))
     except ValueError:
-        print("Vaidmens ID turi būti skaičius.")
+        print("\x1B[1mVaidmens ID turi būti skaičius.\x1B[0m")
         return pasirinkti_vaidmeni()
     else:
         if vaidmens_id:
@@ -322,7 +322,7 @@ def atnaujinti_spektakli():
             pavadinimas = input("Įveskite spektaklio pavadinimą: ")
             sales = session.query(Sale).all()
             if len(sales) == 0:
-                print("Salių duomenų bazė tuščia")
+                print("\x1B[1mSalių duomenų bazė tuščia\x1B[0m")
                 return atnaujinti_spektakli()
             else:
                 print("Salės: ")
@@ -330,17 +330,17 @@ def atnaujinti_spektakli():
                     print("\t-", sale)
             sale_id = int(input("Įveskite salės ID: "))
         except ValueError:
-            print("Blogas pasirinkimas")
+            print("\x1B[1mBlogas pasirinkimas\x1B[0m")
             return atnaujinti_spektakli()
     sales_choice = session.query(Sale).get(sale_id)
     if sales_choice:
         session.commit()
     else:
-        print("Tokio salės ID nėra.")
+        print("\x1B[1mTokio salės ID nėra.\x1B[0m")
         return ivesti_spektakli()
     rezisieriai = session.query(Rezisierius).all()
     if len(rezisieriai) == 0:
-        print("Režisierių duomenų bazė tuščia.")
+        print("\x1B[1mRežisierių duomenų bazė tuščia.\x1B[0m")
         return ivesti_spektakli()
     else:
         print("Režisieriai: ")
@@ -349,13 +349,13 @@ def atnaujinti_spektakli():
     try:
         rezisierius_id = int(input("Įveskite režisieriaus ID: "))  
     except ValueError:
-        print("Blogas režisieriaus ID, bandykite dar kartą.")
+        print("\x1B[1mBlogas režisieriaus ID, bandykite dar kartą.\x1B[0m")
         return atnaujinti_spektakli()
     rezisierius_choice = session.query(Rezisierius).get(rezisierius_id)
     if rezisierius_choice:
         session.commit()
     else:
-        print("Tokio režisieriaus ID nėra.")
+        print("\x1B[1mTokio režisieriaus ID nėra.\x1B[0m")
         return atnaujinti_spektakli()
     if len(pavadinimas) > 0:
         spektaklis.pavadinimas = pavadinimas
