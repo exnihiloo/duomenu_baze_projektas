@@ -286,6 +286,107 @@ def atnaujinti_aktoriu():
         session.commit()
         print(f"Aktoriaus duomenys {aktorius} atnaujinti sėkmingai.")
 
+def atnaujinti_spektakli():
+    spektaklis = pasirinkti_spektakli()
+    if spektaklis:
+        try:
+            pavadinimas = input("Įveskite spektaklio pavadinimą: ")
+            sales = session.query(Sale).all()
+            if len(sales) == 0:
+                print("Salių duomenų bazė tuščia")
+                return atnaujinti_spektakli()
+            else:
+                print("Salės: ")
+                for sale in sales:
+                    print("\t-", sale)
+            sale_id = int(input("Įveskite salės ID: "))
+        except ValueError:
+            print("Blogas pasirinkimas")
+            return atnaujinti_spektakli()
+    sales_choice = session.query(Sale).get(sale_id)
+    if sales_choice:
+        session.commit()
+    else:
+        print("Tokio salės ID nėra.")
+        return ivesti_spektakli()
+    rezisieriai = session.query(Rezisierius).all()
+    if len(rezisieriai) == 0:
+        print("Režisierių duomenų bazė tuščia.")
+        return ivesti_spektakli()
+    else:
+        print("Režisieriai: ")
+        for rezisierius in rezisieriai:
+            print("\t-", rezisierius)
+    try:
+        rezisierius_id = int(input("Įveskite režisieriaus ID: "))  
+    except ValueError:
+        print("Blogas režisieriaus ID, bandykite dar kartą.")
+        return atnaujinti_spektakli()
+    rezisierius_choice = session.query(Rezisierius).get(rezisierius_id)
+    if rezisierius_choice:
+        session.commit()
+    else:
+        print("Tokio režisieriaus ID nėra.")
+        return atnaujinti_spektakli()
+    if len(pavadinimas) > 0:
+        spektaklis.pavadinimas = pavadinimas
+    if sale_id:
+        spektaklis.sale_id = sale_id
+    if rezisierius_id:
+        spektaklis.rezisierius_id = rezisierius_id
+        session.commit()
+        print(f"Spektaklio duomenys {spektaklis} atnaujinti sėkmingai.")
+
+
+
+def atnaujinti_vaidmeni():
+    role = pasirinkti_vaidmeni()
+    if role:
+        try:
+            vaidmuo = input("Įveskite personažo vardą: ")
+            aktoriai = session.query(Aktorius).all()
+            if len(aktoriai) == 0:
+                print("Aktorių duomenų bazė tuščia")
+                return atnaujinti_vaidmeni()
+            else:
+                print("Aktoriai: ")
+                for aktorius in aktoriai:
+                    print("\t-", aktorius)
+            aktorius_id = int(input("Įveskite aktoriaus ID: "))
+        except ValueError:
+            print("Blogas aktoriaus ID, bandykite dar kart1.")
+            return atnaujinti_vaidmeni()
+        aktorius_choice = session.query(Aktorius).get(aktorius_id)
+        if aktorius_choice:
+            session.commit()
+        else:
+            print("Tokio aktoriaus ID nėra.")
+            return atnaujinti_vaidmeni()
+        spektakliai = session.query(Spektaklis).all()
+        if len(spektakliai) == 0:
+            print("Spektaklių duomenų bazė tuščia.")
+            return atnaujinti_vaidmeni()
+        else:
+            print("Spektakliai: ")
+            for spektaklis in spektakliai:
+                print("\t-", spektaklis)
+        try:
+            spektaklis_id = int(input("Įveskite spektaklio ID: "))  
+        except ValueError:
+            print("Blogas spektaklio ID, bandykite dar kartą.")
+            return atnaujinti_vaidmeni()
+        spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
+        if spektaklis_choice:
+            session.commit()
+        else:
+            print("Tokio spektkalio ID nėra.")
+            return atnaujinti_vaidmeni()
+        if len(vaidmuo) > 0:
+            role.vaidmuo = vaidmuo
+        if spektaklis_id:
+            role.spektaklis_id = spektaklis_id
+            session.commit()
+            print(f"Vaidmens duomenys {role} atnaujinti sėkmingai.")
 
 def delete():
     print("Kuriuos Teatro duomenis norite ištrinti?")
@@ -486,9 +587,9 @@ while True:
                 if pasirinkimas3 == 3:
                     atnaujinti_aktoriu()
                 if pasirinkimas3 == 4:
-                    pass
+                    atnaujinti_spektakli()
                 if pasirinkimas3 == 5:
-                    pass
+                    atnaujinti_vaidmeni()
             except ValueError:
                 print("Įveskite 1/2/3/4/5. Įvedėte tai, ko nėra pasirinkime.")
         if choice == 4:
