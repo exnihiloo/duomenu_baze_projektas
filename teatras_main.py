@@ -262,6 +262,18 @@ def atnaujinti_sale():
         session.commit()
         print(f"Salės duomenys {sale} atnaujinti sėkmingai.")
 
+def atnaujinti_rezisieriu():
+    rezisierius = pasirinkti_rezisieriu()
+    if rezisierius:
+        vardas = input("Įveskite režisieriaus vardą: ")
+        pavarde = input("Įveskite režisieriaus pavardę: ")
+        if len(vardas) > 0:
+            rezisierius.vardas = vardas
+        if len(pavarde) > 0:
+            rezisierius.pavarde = pavarde
+        session.commit()
+        print(f"Režisieriaus duomenys {rezisierius} atnaujinti sėkmingai.")
+
 
 def delete():
     print("Kuriuos Teatro duomenis norite ištrinti?")
@@ -458,7 +470,7 @@ while True:
                 if pasirinkimas3 == 1:
                     atnaujinti_sale()
                 if pasirinkimas3 == 2:
-                    pass
+                    atnaujinti_rezisieriu()
                 if pasirinkimas3 == 3:
                     pass
                 if pasirinkimas3 == 4:
