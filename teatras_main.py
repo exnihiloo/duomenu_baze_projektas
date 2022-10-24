@@ -172,6 +172,71 @@ def vaidmenu_perziura():
             print("\t-", vaidmuo)
 
 
+def pasirinkti_sale():
+    saliu_perziura()
+    try:
+        sales_id = int(input("Įveskite salės ID: "))
+    except ValueError:
+        print("Salės ID turi būti skaičius.")
+        return pasirinkti_sale()
+    else:
+        if sales_id:
+            sale = session.query(Sale).get(sales_id)
+            if sale:
+                return sale
+            else:
+                print(f"Tokio ID ({sales_id}) duomenų bazėje nėra.")
+                return pasirinkti_sale()
+
+def pasirinkti_rezisieriu():
+    rezisieriu_perziura()
+    try:
+        rezisieriaus_id = int(input("Įveskite režisieriaus ID: "))
+    except ValueError:
+        print("Režisieriaus ID turi būti skaičius.")
+        return pasirinkti_rezisieriu()
+    else:
+        if rezisieriaus_id:
+            rezisierius = session.query(Rezisierius).get(rezisieriaus_id)
+            if rezisierius:
+                return rezisierius
+            else:
+                print(f"Tokio ID ({rezisieriaus_id}) duomenų bazėje nėra.")
+                return pasirinkti_rezisieriu()
+
+def pasirinkti_aktoriu():
+    aktoriu_perziura()
+    try:
+        aktoriaus_id = int(input("Įveskite aktoriaus/ės ID: "))
+    except ValueError:
+        print("Aktoriaus/ės ID turi būti skaičius.")
+        return pasirinkti_aktoriu()
+    else:
+        if aktoriaus_id:
+            aktorius = session.query(Aktorius).get(aktoriaus_id)
+            if aktorius:
+                return aktorius
+            else:
+                print(f"Tokio ID ({aktoriaus_id}) duomenų bazėje nėra.")
+                return pasirinkti_aktoriu()
+
+def pasirinkti_spektakli():
+    spektakliu_perziura()
+    try:
+        spektaklio_id = int(input("Įveskite spektaklio ID: "))
+    except ValueError:
+        print("Spektaklio ID turi būti skaičius.")
+        return pasirinkti_spektakli()
+    else:
+        if spektaklio_id:
+            spektaklis = session.query(Spektaklis).get(spektaklio_id)
+            if spektaklis:
+                return spektaklis
+            else:
+                print(f"Tokio ID ({spektaklio_id}) duomenų bazėje nėra.")
+                return pasirinkti_spektakli()
+
+
 def delete():
     print("Kuriuos Teatro duomenis norite ištrinti?")
     print("\t1 - salės.")
