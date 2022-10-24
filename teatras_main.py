@@ -79,6 +79,53 @@ def ivesti_spektakli():
     print(f"Spektaklis: [{spektaklis}] sėkmingai pridėtas į duomenų bazę.")
 
 
+def ivesti_vaidmeni():
+    print("--- Įveskite naują vaidmenį ---")
+    try:
+        vaidmuo = input("Įveskite personažo vardą: ")
+        aktoriai = session.query(Aktorius).all()
+        if len(aktoriai) == 0:
+            print("Aktorių duomenų bazė tuščia")
+            return ivesti_vaidmeni()
+        else:
+            print("Aktoriai: ")
+            for aktorius in aktoriai:
+                print("\t-", aktorius)
+        aktorius_id = int(input("Įveskite aktoriaus ID: "))
+    except ValueError:
+        print("Aktoriaus ID negali būti raidė.")
+        return ivesti_vaidmeni()
+    aktorius_choice = session.query(Aktorius).get(aktorius_id)
+    if aktorius_choice:
+        session.commit()
+    else:
+        print("Tokio aktoriaus ID nėra.")
+        return ivesti_vaidmeni()
+    spektakliai = session.query(Spektaklis).all()
+    if len(spektakliai) == 0:
+        print("Spektaklių duomenų bazė tuščia.")
+        return ivesti_vaidmeni()
+    else:
+        print("Spektakliai: ")
+        for spektaklis in spektakliai:
+            print("\t-", spektaklis)
+    try:
+        spektaklis_id = int(input("Įveskite spektaklio ID: "))  
+    except ValueError:
+        print("Spektaklio ID negali būti raidė.")
+        return ivesti_vaidmeni()
+    spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
+    if spektaklis_choice:
+        session.commit()
+    else:
+        print("Tokio spektkalio ID nėra.")
+        return ivesti_vaidmeni()
+    vaidmuo = Vaidmuo(vaidmuo = vaidmuo, aktorius_id = aktorius_id, spektaklis_id = spektaklis_id)
+    session.add(vaidmuo)
+    session.commit()
+    print(f"Vaidmuo: ({vaidmuo}) sėkmingai pridėtas į duomenų bazę.")
+
+
 while True:
     print('Teatro duomenų bazė, pasirinimai:')
     print('\t1 - teatro duomenų įvestis')
@@ -110,7 +157,7 @@ while True:
                 if pasirinkimas == 4:
                     ivesti_spektakli()
                 if pasirinkimas == 5:
-                    pass
+                    ivesti_vaidmeni()
             except ValueError:
                 print("Įveskite 1/2/3/4/5. Įvedėte tai, ko nėra pasirinkime.")
 
