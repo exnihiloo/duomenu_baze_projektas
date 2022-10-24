@@ -7,6 +7,11 @@ engine = create_engine('sqlite:///data/teatras.db')
 Base = declarative_base()
 
 
+association_table = Table('aktorius_spektaklis', Base.metadata,
+    Column('spektaklis_id', Integer, ForeignKey('spektaklis.id')),
+    Column('aktorius_id', Integer, ForeignKey('aktorius.id'))
+)
+
 
 class Sale(Base):
     __tablename__ = 'sale'
@@ -27,7 +32,8 @@ class Spektaklis(Base):
     sale = relationship("Sale", back_populates = 'spektakliai')
     rezisierius_id = Column(Integer, ForeignKey('rezisierius.id'))
     rezisierius = relationship("Rezisierius", back_populates = 'spektakliai')
-
+    aktoriai = relationship("Aktorius", secondary = association_table, back_populates = 'spektakliai')
+    vaidmenys = relationship("Vaidmuo", back_populates = 'spektaklis')
 
     def __repr__(self):
         return f"{self.id}) {self.pavadinimas}, salė: {self.sale}, režisierius {self.rezisierius}."
@@ -44,3 +50,32 @@ class Rezisierius(Base):
 
     def __repr__(self):
         return f"{self.id}) {self.vardas} {self.pavarde}"
+
+
+class Aktorius(Base):
+    __tablename__ = 'aktorius'
+    id = Column(Integer, primary_key = True)
+    vardas = Column('vardas', String)
+    pavarde = Column('pavarde', String)
+    spektakliai = relationship("Spektaklis", secondary = association_table, back_populates = 'aktoriai')
+    vaidmenys = relationship("Vaidmuo", back_populates = 'aktorius')
+
+    def __repr__(self):
+        return f"{self.id}) {self.vardas} {self.pavarde}"
+
+
+class Vaidmuo(Base):
+    __tablename__ = 'vaidmuo'
+    id = Column(Integer, primary_key = True)
+    vaidmuo = Column("vaidmuo", String)
+    aktorius_id = Column(Integer, ForeignKey("aktorius.id"))
+    aktorius = relationship("Aktorius", back_populates = 'vaidmenys')
+    spektaklis_id = Column(Integer, ForeignKey("spektaklis.id"))
+    spektaklis = relationship("Spektaklis", back_populates = 'vaidmenys')
+
+    def __repr__(self):
+        return f"{self.id}) {self.vaidmuo}, atliekamas aktoriaus/ės {self.aktorius}, spektaklyje {self.spektaklis}"
+
+
+if __name__ == "__main__":
+    Base.metadata.create_all(engine)
