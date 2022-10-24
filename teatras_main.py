@@ -126,6 +126,52 @@ def ivesti_vaidmeni():
     print(f"Vaidmuo: ({vaidmuo}) sėkmingai pridėtas į duomenų bazę.")
 
 
+def saliu_perziura():
+    sales = session.query(Sale).all()
+    if len(sales) == 0:
+        print("Teatro salių duomenų bazė tuščia.")
+    else:
+        print("Salės:")
+        for sale in sales:
+            print("\t-", sale)
+
+def rezisieriu_perziura():
+    rezisiariai = session.query(Rezisierius).all()
+    if len(rezisiariai) == 0:
+        print("Teatro režisierių duomenų bazė tuščia.")
+    else:
+        print("Režisieriai:")
+        for rezisierius in rezisiariai:
+            print("\t-", rezisierius)
+
+def aktoriu_perziura():
+    aktoriai = session.query(Aktorius).all()
+    if len(aktoriai) == 0:
+        print("Teatro aktorių duomenų bazė tuščia.")
+    else:
+        print("Aktoriai:")
+        for aktorius in aktoriai:
+            print("\t-", aktorius)
+
+def spektakliu_perziura():
+    spektakliai = session.query(Spektaklis).all()
+    if len(spektakliai) == 0:
+        print("Teatro spektaklių duomenų bazė tuščia.")
+    else:
+        print("Spektakliai:")
+        for spektaklis in spektakliai:
+            print("\t-", spektaklis)
+
+def vaidmenu_perziura():
+    vaidmenys = session.query(Vaidmuo).all()
+    if len(vaidmenys) == 0:
+        print("Spektaklių vaidmenų duomenų bazė tuščia.")
+    else:
+        print("Vaidmenys:")
+        for vaidmuo in vaidmenys:
+            print("\t-", vaidmuo)
+
+
 while True:
     print('Teatro duomenų bazė, pasirinimai:')
     print('\t1 - teatro duomenų įvestis')
@@ -173,15 +219,15 @@ while True:
                 if pasirinkimas2 == 0 or pasirinkimas2 > 6:
                     print("Tokio pasirinkimo nėra.")
                 if pasirinkimas2 == 1:
-                    pass
+                    saliu_perziura()
                 if pasirinkimas2 == 2:
-                    pass
+                    rezisieriu_perziura()
                 if pasirinkimas2 == 3:
-                    pass
+                    aktoriu_perziura()
                 if pasirinkimas2 == 4:
-                    pass
+                    spektakliu_perziura()
                 if pasirinkimas2 == 5:
-                    pass
+                    vaidmenu_perziura()
             except ValueError:
                 print("Įveskite 1/2/3/4/5. Įvedėte tai, ko nėra pasirinkime.")
         if choice == 3:
