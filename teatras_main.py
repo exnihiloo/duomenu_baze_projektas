@@ -10,7 +10,7 @@ def ivesti_sale():
     sale = Sale(pavadinimas = pavadinimas)
     session.add(sale)
     session.commit()
-    print(f"Salė: s{sale} sėkmingai pridėta į duomenų bazę.")
+    print(f"Salė: {sale} sėkmingai pridėta į duomenų bazę.")
 
 
 def ivesti_rezisieriu():
@@ -76,7 +76,7 @@ def ivesti_spektakli():
     spektaklis = Spektaklis(pavadinimas = pavadinimas, sale_id = sales_id, rezisierius_id = rezisierius_id)
     session.add(spektaklis)
     session.commit()
-    print(f"Spektaklis: [{spektaklis}] sėkmingai pridėtas į duomenų bazę.")
+    print(f"Spektaklis: {spektaklis} sėkmingai pridėtas į duomenų bazę.")
 
 
 def ivesti_vaidmeni():
@@ -116,14 +116,15 @@ def ivesti_vaidmeni():
         return ivesti_vaidmeni()
     spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
     if spektaklis_choice:
+        spektaklis.aktoriai.append(aktorius_choice)
         session.commit()
     else:
         print("Tokio spektkalio ID nėra.")
         return ivesti_vaidmeni()
-    vaidmuo = Vaidmuo(vaidmuo = vaidmuo, spektaklis_id = spektaklis_id)
+    vaidmuo = Vaidmuo(vaidmuo = vaidmuo, aktorius_id = aktorius_id, spektaklis_id = spektaklis_id)
     session.add(vaidmuo)
     session.commit()
-    print(f"Vaidmuo: ({vaidmuo}) sėkmingai pridėtas į duomenų bazę.")
+    print(f"Vaidmuo: {vaidmuo} sėkmingai pridėtas į duomenų bazę.")
 
 
 def saliu_perziura():
