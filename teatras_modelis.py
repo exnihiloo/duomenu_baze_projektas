@@ -43,11 +43,12 @@ class Rezisierius(Base):
     vardas = Column('vardas', String)
     pavarde = Column('pavarde', String)
     spektakliai = relationship('Spektaklis', back_populates = 'rezisierius')
+    gimimo_data = Column("Gimimo data", Date)
 
 
 
     def __repr__(self):
-        return f"{self.id}) {self.vardas} {self.pavarde}"
+        return f"{self.id}) {self.vardas} {self.pavarde} : {self.gimimo_data}"
 
 
 class Aktorius(Base):
@@ -55,11 +56,12 @@ class Aktorius(Base):
     id = Column(Integer, primary_key = True)
     vardas = Column('vardas', String)
     pavarde = Column('pavarde', String)
+    gimimo_data = Column("Gimimo data", Date)
     spektakliai = relationship("Spektaklis", secondary = association_table, back_populates = 'aktoriai')
     vaidmenys = relationship("Vaidmuo", back_populates = 'aktoriai')
 
     def __repr__(self):
-        return f"{self.id}) {self.vardas} {self.pavarde}"
+        return f"{self.id}) {self.vardas} {self.pavarde} : {self.gimimo_data}"
 
 
 class Vaidmuo(Base):

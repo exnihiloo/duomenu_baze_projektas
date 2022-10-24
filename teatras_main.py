@@ -1,6 +1,6 @@
 from teatras_modelis import engine, Sale, Spektaklis, Rezisierius, Aktorius, Vaidmuo
 from sqlalchemy.orm import sessionmaker
-
+from datetime import *
 
 session = sessionmaker(bind=engine)()
 
@@ -15,22 +15,34 @@ def ivesti_sale():
 
 def ivesti_rezisieriu():
     print("--- Įveskite naują režisierių ---")
-    vardas = input("Įveskite režisieriaus vardą: ")
-    pavarde = input("Įveskite režisieriaus pavardę: ")
-    rezisierius = Rezisierius(vardas = vardas, pavarde = pavarde)
-    session.add(rezisierius)
-    session.commit()
-    print(f"Režisierius/ė: {rezisierius} sėkmingai pridėtas/a į duomenų bazę.")
+    try:
+        vardas = input("Įveskite režisieriaus vardą: ")
+        pavarde = input("Įveskite režisieriaus pavardę: ")
+        gimimo_data = datetime.strptime(input("Įveskite režisieriaus gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
+    except ValueError:
+        print("Blogai įvesta režisieriaus/ės gimimo data.")
+        return ivesti_rezisieriu()
+    else:
+        rezisierius = Rezisierius(vardas = vardas, pavarde = pavarde, gimimo_data = gimimo_data)
+        session.add(rezisierius)
+        session.commit()
+        print(f"Režisierius/ė: {rezisierius} sėkmingai pridėtas/a į duomenų bazę.")
 
 
 def ivesti_aktoriu():
     print("--- Įveskite naują aktorių/aktorę ---")
-    vardas = input("Įveskite aktoriaus/ės vardą: ")
-    pavarde = input("Įveskite aktoriaus/ės pavardę: ")
-    aktorius = Aktorius(vardas = vardas, pavarde = pavarde)
-    session.add(aktorius)
-    session.commit()
-    print(f"Aktorius/ė: {aktorius} sėkmingai pridėtas/a į duomenų bazę.")
+    try:
+        vardas = input("Įveskite aktoriaus/ės vardą: ")
+        pavarde = input("Įveskite aktoriaus/ės pavardę: ")
+        gimimo_data = datetime.strptime(input("Įveskite aktoriaus/ės gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
+    except ValueError:
+        print("Blogai įvesta aktoriaus/ės gimimo data.")
+        return ivesti_aktoriu()
+    else:
+        aktorius = Aktorius(vardas = vardas, pavarde = pavarde, gimimo_data = gimimo_data)
+        session.add(aktorius)
+        session.commit()
+        print(f"Aktorius/ė: {aktorius} sėkmingai pridėtas/a į duomenų bazę.")
 
 def ivesti_spektakli():
     print("--- Įveskite naują spektaklį ---")
@@ -266,24 +278,36 @@ def atnaujinti_sale():
 def atnaujinti_rezisieriu():
     rezisierius = pasirinkti_rezisieriu()
     if rezisierius:
-        vardas = input("Įveskite režisieriaus vardą: ")
-        pavarde = input("Įveskite režisieriaus pavardę: ")
+        try:
+            vardas = input("Įveskite režisieriaus vardą: ")
+            pavarde = input("Įveskite režisieriaus pavardę: ")
+            gimimo_data = datetime.strptime(input("Įveskite režisieriaus gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
+        except ValueError:
+            gimimo_data = rezisierius.gimimo_data
         if len(vardas) > 0:
             rezisierius.vardas = vardas
         if len(pavarde) > 0:
             rezisierius.pavarde = pavarde
+        if gimimo_data:
+            rezisierius.gimimo_data = gimimo_data
         session.commit()
         print(f"Režisieriaus duomenys {rezisierius} atnaujinti sėkmingai.")
 
 def atnaujinti_aktoriu():
     aktorius = pasirinkti_aktoriu()
     if aktorius:
-        vardas = input("Įveskite aktoriaus/ės vardą: ")
-        pavarde = input("Įveskite aktoriaus/ės pavardę: ")
+        try:
+            vardas = input("Įveskite aktoriaus/ės vardą: ")
+            pavarde = input("Įveskite aktoriaus/ės pavardę: ")
+            gimimo_data = datetime.strptime(input("Įveskite aktoriaus gimimo datą (YYYY-MM-DD): "), "%Y-%m-%d")
+        except ValueError:
+            gimimo_data = aktorius.gimimo_data
         if len(vardas) > 0:
             aktorius.vardas = vardas
         if len(pavarde) > 0:
             aktorius.pavarde = pavarde
+        if gimimo_data:
+            aktorius.gimimo_data = gimimo_data
         session.commit()
         print(f"Aktoriaus duomenys {aktorius} atnaujinti sėkmingai.")
 
