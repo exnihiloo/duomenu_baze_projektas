@@ -4,6 +4,13 @@ from sqlalchemy.orm import sessionmaker
 
 session = sessionmaker(bind=engine)()
 
+def ivesti_sale():
+    print("--- Įveskite naują salę ---")
+    pavadinimas = input("Įveskite salės pavadinimą: ")
+    sale = Sale(pavadinimas = pavadinimas)
+    session.add(sale)
+    session.commit()
+    print(f"Salė: s{sale} sėkmingai pridėta į duomenų bazę.")
 
 
 
@@ -30,7 +37,7 @@ while True:
                 if pasirinkimas == 0 or pasirinkimas > 6:
                     print("Tokio pasirinkimo nėra.")
                 if pasirinkimas == 1:
-                    pass
+                    ivesti_sale()
                 if pasirinkimas == 2:
                     pass
                 if pasirinkimas == 3:
