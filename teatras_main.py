@@ -13,6 +13,16 @@ def ivesti_sale():
     print(f"Salė: s{sale} sėkmingai pridėta į duomenų bazę.")
 
 
+def ivesti_rezisieriu():
+    print("--- Įveskite naują režisierių ---")
+    vardas = input("Įveskite režisieriaus vardą: ")
+    pavarde = input("Įveskite režisieriaus pavardę: ")
+    rezisierius = Rezisierius(vardas = vardas, pavarde = pavarde)
+    session.add(rezisierius)
+    session.commit()
+    print(f"Režisierius/ė: {rezisierius} sėkmingai pridėtas/a į duomenų bazę.")
+
+
 
 while True:
     print('Teatro duomenų bazė, pasirinimai:')
@@ -39,7 +49,7 @@ while True:
                 if pasirinkimas == 1:
                     ivesti_sale()
                 if pasirinkimas == 2:
-                    pass
+                    ivesti_rezisieriu()
                 if pasirinkimas == 3:
                     pass
                 if pasirinkimas == 4:
