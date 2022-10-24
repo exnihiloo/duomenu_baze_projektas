@@ -32,6 +32,51 @@ def ivesti_aktoriu():
     session.commit()
     print(f"Aktorius/ė: {aktorius} sėkmingai pridėtas/a į duomenų bazę.")
 
+def ivesti_spektakli():
+    print("--- Įveskite naują spektaklį ---")
+    try:
+        pavadinimas = input("Įveskite spektaklio pavadinimą: ")
+        sales = session.query(Sale).all()
+        if len(sales) == 0:
+            print("Salių duomenų bazė tuščia")
+            return ivesti_spektakli()
+        else:
+            print("Salės: ")
+            for sale in sales:
+                print("\t-", sale)
+        sales_id = int(input("Įveskite salės ID: "))
+    except ValueError:
+        print("Salės ID negali būti raidė.")
+        return ivesti_spektakli()
+    sales_choice = session.query(Sale).get(sales_id)
+    if sales_choice:
+        session.commit()
+    else:
+        print("Tokio salės ID nėra.")
+        return ivesti_spektakli()
+    rezisieriai = session.query(Rezisierius).all()
+    if len(rezisieriai) == 0:
+        print("Režisierių duomenų bazė tuščia.")
+        return ivesti_spektakli()
+    else:
+        print("Režisieriai: ")
+        for rezisierius in rezisieriai:
+            print("\t-", rezisierius)
+    try:
+        rezisierius_id = int(input("Įveskite režisieriaus ID: "))  
+    except ValueError:
+        print("Režisieriaus ID negali būti raidė.")
+        return ivesti_spektakli()
+    rezisierius_choice = session.query(Rezisierius).get(rezisierius_id)
+    if rezisierius_choice:
+        session.commit()
+    else:
+        print("Tokio režisieriaus ID nėra.")
+        return ivesti_spektakli()
+    spektaklis = Spektaklis(pavadinimas = pavadinimas, sale_id = sales_id, rezisierius_id = rezisierius_id)
+    session.add(spektaklis)
+    session.commit()
+    print(f"Spektaklis: [{spektaklis}] sėkmingai pridėtas į duomenų bazę.")
 
 
 while True:
@@ -63,7 +108,7 @@ while True:
                 if pasirinkimas == 3:
                     ivesti_aktoriu()
                 if pasirinkimas == 4:
-                    pass
+                    ivesti_spektakli()
                 if pasirinkimas == 5:
                     pass
             except ValueError:
