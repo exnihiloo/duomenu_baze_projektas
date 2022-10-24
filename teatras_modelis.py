@@ -12,15 +12,18 @@ association_table = Table('aktorius_spektaklis', Base.metadata,
     Column('aktorius_id', Integer, ForeignKey('aktorius.id'))
 )
 
+
+
 class Sale(Base):
     __tablename__ = 'sale'
     id = Column(Integer, primary_key = True)
-    pavadinimas = Column('Sales pavadinimas', String)
+    pavadinimas = Column('sales pavadinimas', String)
+    adresas = Column('adresas', String)
     spektakliai = relationship("Spektaklis", back_populates = 'sale')
 
 
     def __repr__(self):
-        return f"{self.id}) {self.pavadinimas}."
+        return f"{self.id}) {self.pavadinimas}, adresas: {self.adresas}."
 
 class Spektaklis(Base):
     __tablename__ = 'spektaklis'
@@ -58,7 +61,7 @@ class Aktorius(Base):
     pavarde = Column('pavarde', String)
     gimimo_data = Column("Gimimo data", Date)
     spektakliai = relationship("Spektaklis", secondary = association_table, back_populates = 'aktoriai')
-    vaidmenys = relationship("Vaidmuo", back_populates = 'aktoriai')
+    vaidmenys = relationship("Vaidmuo", back_populates = 'aktorius')
 
     def __repr__(self):
         return f"{self.id}) {self.vardas} {self.pavarde} : {self.gimimo_data}"
@@ -69,12 +72,12 @@ class Vaidmuo(Base):
     id = Column(Integer, primary_key = True)
     vaidmuo = Column("vaidmuo", String)
     aktorius_id = Column(Integer, ForeignKey("aktorius.id"))
-    aktoriai = relationship("Aktorius", back_populates = 'vaidmenys')
+    aktorius = relationship("Aktorius", back_populates = 'vaidmenys')
     spektaklis_id = Column(Integer, ForeignKey("spektaklis.id"))
     spektaklis = relationship("Spektaklis", back_populates = 'vaidmenys')
 
     def __repr__(self):
-        return f"{self.id}) {self.vaidmuo}, atliekamas aktoriaus/ės {self.aktoriai}, spektaklyje {self.spektaklis}"
+        return f"{self.id}) {self.vaidmuo}, atliekamas aktoriaus/ės {self.aktorius}, spektaklyje {self.spektaklis}"
 
 
 if __name__ == "__main__":

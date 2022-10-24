@@ -7,7 +7,8 @@ session = sessionmaker(bind=engine)()
 def ivesti_sale():
     print("--- Įveskite naują salę ---")
     pavadinimas = input("Įveskite salės pavadinimą: ")
-    sale = Sale(pavadinimas = pavadinimas)
+    adresas = input("Įveskite salės adresą: ")
+    sale = Sale(pavadinimas = pavadinimas, adresas = adresas)
     session.add(sale)
     session.commit()
     print(f"Salė: {sale} sėkmingai pridėta į duomenų bazę.")
@@ -103,9 +104,9 @@ def ivesti_vaidmeni():
             print("Aktoriai: ")
             for aktorius in aktoriai:
                 print("\t-", aktorius)
-        aktorius_id = int(input("Įveskite aktoriaus ID: "))
+        aktorius_id = int(input("Įveskite aktoriaus/ės ID: "))
     except ValueError:
-        print("Aktoriaus ID negali būti raidė.")
+        print("Aktoriaus/ės ID negali būti raidė.")
         return ivesti_vaidmeni()
     aktorius_choice = session.query(Aktorius).get(aktorius_id)
     if aktorius_choice:
@@ -270,8 +271,11 @@ def atnaujinti_sale():
     sale = pasirinkti_sale()
     if sale:
         pavadinimas = input("Įveskite salės pavadinimą: ")
+        adresas = input("Įveskite salės adresą: ")
         if len(pavadinimas) > 0:
             sale.pavadinimas = pavadinimas
+        if len(adresas) > 0:
+            sale.adresas = adresas
         session.commit()
         print(f"Salės duomenys {sale} atnaujinti sėkmingai.")
 
@@ -402,6 +406,7 @@ def atnaujinti_vaidmeni():
             return atnaujinti_vaidmeni()
         spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
         if spektaklis_choice:
+            spektaklis.aktoriai.append(aktorius_choice)
             session.commit()
         else:
             print("Tokio spektkalio ID nėra.")
@@ -410,6 +415,8 @@ def atnaujinti_vaidmeni():
             role.vaidmuo = vaidmuo
         if spektaklis_id:
             role.spektaklis_id = spektaklis_id
+        if aktorius_id:
+            role.aktorius_id = aktorius_id
             session.commit()
             print(f"Vaidmens duomenys {role} atnaujinti sėkmingai.")
 
