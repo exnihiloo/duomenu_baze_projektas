@@ -237,6 +237,23 @@ def pasirinkti_spektakli():
                 return pasirinkti_spektakli()
 
 
+def pasirinkti_vaidmeni():
+    vaidmenu_perziura()
+    try:
+        vaidmens_id = int(input("Įveskite vaidmens ID: "))
+    except ValueError:
+        print("Vaidmens ID turi būti skaičius.")
+        return pasirinkti_vaidmeni()
+    else:
+        if vaidmens_id:
+            vaidmuo = session.query(Vaidmuo).get(vaidmens_id)
+            if vaidmuo:
+                return vaidmuo
+            else:
+                print(f"Tokio ID ({vaidmens_id}) duomenų bazėje nėra.")
+                return pasirinkti_vaidmeni()
+
+
 def delete():
     print("Kuriuos Teatro duomenis norite ištrinti?")
     print("\t1 - salės.")
