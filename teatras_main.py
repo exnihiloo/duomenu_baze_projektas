@@ -120,7 +120,7 @@ def ivesti_vaidmeni():
     else:
         print("Tokio spektkalio ID nėra.")
         return ivesti_vaidmeni()
-    vaidmuo = Vaidmuo(vaidmuo = vaidmuo, aktorius_id = aktorius_id, spektaklis_id = spektaklis_id)
+    vaidmuo = Vaidmuo(vaidmuo = vaidmuo, spektaklis_id = spektaklis_id)
     session.add(vaidmuo)
     session.commit()
     print(f"Vaidmuo: ({vaidmuo}) sėkmingai pridėtas į duomenų bazę.")
@@ -252,6 +252,15 @@ def pasirinkti_vaidmeni():
             else:
                 print(f"Tokio ID ({vaidmens_id}) duomenų bazėje nėra.")
                 return pasirinkti_vaidmeni()
+
+def atnaujinti_sale():
+    sale = pasirinkti_sale()
+    if sale:
+        pavadinimas = input("Įveskite salės pavadinimą: ")
+        if len(pavadinimas) > 0:
+            sale.pavadinimas = pavadinimas
+        session.commit()
+        print(f"Salės duomenys {sale} atnaujinti sėkmingai.")
 
 
 def delete():
@@ -447,7 +456,7 @@ while True:
                 if pasirinkimas3 == 0 or pasirinkimas3 > 6:
                     print("Tokio pasirinkimo nėra.")
                 if pasirinkimas3 == 1:
-                    pass
+                    atnaujinti_sale()
                 if pasirinkimas3 == 2:
                     pass
                 if pasirinkimas3 == 3:
