@@ -172,6 +172,129 @@ def vaidmenu_perziura():
             print("\t-", vaidmuo)
 
 
+def delete():
+    print("Kuriuos Teatro duomenis norite ištrinti?")
+    print("\t1 - salės.")
+    print("\t2 - režisieriaus.")
+    print("\t3 - aktoriaus.")
+    print("\t4 - spektaklio.")
+    print("\t5 - vaidmens.")
+    try:
+        choice = int(input("Pasirinkite: "))
+        if choice > 5 or choice == 0:
+            print("Tokio pasirinkimo nėra.")
+            return delete()
+        else:
+            if choice == 1:
+                sales = session.query(Sale).all()
+                if len(sales) == 0:
+                    print("Teatro salių duomenų bazė tuščia")
+                else:
+                    print("Salės: ")
+                    for sale in sales:
+                        print("\t-", sale)
+                try:
+                    sale_pasirinkimas = int(input("Įveskite salės ID:"))
+                    trinama_sale = session.query(Sale).get(sale_pasirinkimas)
+                    if trinama_sale:
+                        session.delete(trinama_sale)
+                        session.commit()
+                        print(f"Salė {trinama_sale} -- sėkmingai ištrinta.")
+                    else:
+                        print("\x1B[1mTokio salės ID duomenų bazėje nėra.\x1B[0m")
+                        return delete()
+                except ValueError:
+                    print("Salės ID gali būti tik \x1B[1mSKAIČIUS\x1B[0m.")
+                    return delete()
+            if choice == 2:
+                rezisieriai = session.query(Rezisierius).all()
+                if len(rezisieriai) == 0:
+                    print("Režisierių duomenų bazė tuščia.")
+                else:
+                    print("Režisieriai/ės: ")
+                    for rezisierius in rezisieriai:
+                        print("\t-", rezisierius)
+                try:
+                    rezisierius_pasirinkimas = int(input("Įveskite režisieriaus/ės ID: "))
+                    trinamas_rezisierius = session.query(Rezisierius).get(rezisierius_pasirinkimas)
+                    if trinamas_rezisierius:
+                        session.delete(trinamas_rezisierius)
+                        session.commit()
+                        print(f"Režisierius {trinamas_rezisierius} -- sėkmingai ištrintas/a.")
+                    else:
+                        print("\x1B[1mTokio režisieriaus ID duomenų bazėje nėra.\x1B[0m")
+                        return delete()
+                except ValueError:
+                    print("Režisieriaus ID gali būti tik \x1B[1mSKAIČIUS\x1B[0m.")
+                    return delete()
+            if choice == 3:
+                aktoriai = session.query(Aktorius).all()
+                if len(aktoriai) == 0:
+                    print("Aktorių duomenų bazė tuščia.")
+                else:
+                    print("Aktoriai/ės: ")
+                    for aktorius in aktoriai:
+                        print("\t-", aktorius)
+                try:
+                    aktorius_pasirinkimas = int(input("Įveskite aktoriaus/ės ID: "))
+                    trinamas_aktorius = session.query(Aktorius).get(aktorius_pasirinkimas)
+                    if trinamas_aktorius:
+                        session.delete(trinamas_aktorius)
+                        session.commit()
+                        print(f"Aktorius/ė {trinamas_aktorius} -- sėkmingai ištrintas/a.")
+                    else:
+                        print("\x1B[1mTokio aktoriaus/ės ID duomenų bazėje nėra.\x1B[0m")
+                        return delete()
+                except ValueError:
+                    print("Aktoriaus ID gali būti tik \x1B[1mSKAIČIUS\x1B[0m.")
+                    return delete()
+
+            if choice == 4:
+                spektakliai = session.query(Spektaklis).all()
+                if len(spektakliai) == 0:
+                    print("Spektaklių duomenų bazė tuščia.")
+                else:
+                    print("Spektakliai: ")
+                    for spektaklis in spektakliai:
+                        print("\t-", spektaklis)
+                try:
+                    spektaklis_pasirinkimas = int(input("Įveskite spektaklio ID: "))
+                    trinamas_spektkalis = session.query(Spektaklis).get(spektaklis_pasirinkimas)
+                    if trinamas_spektkalis:
+                        session.delete(trinamas_spektkalis)
+                        session.commit()
+                        print(f"Spektaklis {trinamas_spektkalis} -- sėkmingai ištrintas/a.")
+                    else:
+                        print("\x1B[1mTokio spektaklio ID duomenų bazėje nėra.\x1B[0m")
+                        return delete()
+                except ValueError:
+                    print("Spektaklio ID gali būti tik \x1B[1mSKAIČIUS\x1B[0m.")
+                    return delete()
+            
+            if choice == 5:
+                vaidmenys = session.query(Vaidmuo).all()
+                if len(vaidmenys) == 0:
+                    print("Vaidmenų duomenų bazė tuščia.")
+                else:
+                    print("Vaidmenys: ")
+                    for vaidmuo in vaidmenys:
+                        print("\t-", vaidmuo)
+                try:
+                    vaidmuo_pasirinkimas = int(input("Įveskite vaidmenio ID: "))
+                    trinamas_vaidmuo = session.query(Vaidmuo).get(vaidmuo_pasirinkimas)
+                    if trinamas_vaidmuo:
+                        session.delete(trinamas_vaidmuo)
+                        session.commit()
+                        print(f"Vaidmuo {trinamas_vaidmuo} -- sėkmingai ištrintas/a.")
+                    else:
+                        print("\x1B[1mTokio vaidmens ID duomenų bazėje nėra.\x1B[0m")
+                        return delete()
+                except ValueError:
+                    print("Vaidmens ID gali būti tik \x1B[1mSKAIČIUS\x1B[0m.")
+                    return delete()          
+    except ValueError:
+        print("Įveskite 1/2/3. Įvedėte tai, ko nėra pasirinkime.")
+
 while True:
     print('Teatro duomenų bazė, pasirinimai:')
     print('\t1 - teatro duomenų įvestis')
@@ -254,7 +377,7 @@ while True:
             except ValueError:
                 print("Įveskite 1/2/3/4/5. Įvedėte tai, ko nėra pasirinkime.")
         if choice == 4:
-            pass
+            delete()
         if choice == 0:
             print("Išėjote")
             break
