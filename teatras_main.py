@@ -487,7 +487,7 @@ def delete():
                     trinamas_aktorius = session.query(Aktorius).get(aktorius_pasirinkimas)
                     if trinamas_aktorius:
                         for spektaklis in trinamas_aktorius.spektakliai:
-                            session.delete(spektaklis)
+                            trinamas_aktorius.spektakliai.remove(spektaklis)
                         session.delete(trinamas_aktorius)
                         session.commit()
                         print(f"Aktorius/ė {trinamas_aktorius} -- sėkmingai ištrintas/a.")
@@ -511,7 +511,7 @@ def delete():
                     trinamas_spektkalis = session.query(Spektaklis).get(spektaklis_pasirinkimas)
                     if trinamas_spektkalis:
                         for aktorius in trinamas_spektkalis.aktoriai:
-                            session.delete(aktorius)
+                            trinamas_spektkalis.aktoriai.remove(aktorius)
                         session.delete(trinamas_spektkalis)
                         session.commit()
                         print(f"Spektaklis {trinamas_spektkalis} -- sėkmingai ištrintas/a.")
@@ -534,6 +534,14 @@ def delete():
                     vaidmuo_pasirinkimas = int(input("Įveskite vaidmenio ID: "))
                     trinamas_vaidmuo = session.query(Vaidmuo).get(vaidmuo_pasirinkimas)
                     if trinamas_vaidmuo:
+                        aktorius = session.query(Aktorius).get(trinamas_vaidmuo.aktorius_id)
+                        spektaklis = session.query(Spektaklis).get(trinamas_vaidmuo.spektaklis_id)
+                        for spektaklis in aktorius.spektakliai:
+                            if spektaklis.id == trinamas_vaidmuo.spektaklis_id:
+                                aktorius.spektakliai.remove(spektaklis)
+                        for aktorius in spektaklis.aktoriai:
+                            if aktorius.id == trinamas_vaidmuo.aktorius_id:
+                                spektaklis.aktoriai.remove(aktorius)
                         session.delete(trinamas_vaidmuo)
                         session.commit()
                         print(f"Vaidmuo {trinamas_vaidmuo} -- sėkmingai ištrintas/a.")
