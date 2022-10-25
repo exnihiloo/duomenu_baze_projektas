@@ -37,7 +37,7 @@ class Spektaklis(Base):
     vaidmenys = relationship("Vaidmuo", back_populates = 'spektaklis')
 
     def __repr__(self):
-        return f"{self.id}) \x1B[1m„{self.pavadinimas}“\x1B[0m, salė: {self.sale}, režisierius {self.rezisierius}."
+        return f"{self.id}) \x1B[1m„{self.pavadinimas}“\x1B[0m, salė: {self.sale}, režisierius: {self.rezisierius}."
 
 
 class Rezisierius(Base):
