@@ -406,7 +406,6 @@ def atnaujinti_vaidmeni():
             return atnaujinti_vaidmeni()
         spektaklis_choice = session.query(Spektaklis).get(spektaklis_id)
         if spektaklis_choice:
-            spektaklis_choice.aktoriai = aktorius_choice.id
             session.commit()
         else:
             print("Tokio spektkalio ID nėra.")
@@ -487,6 +486,8 @@ def delete():
                     aktorius_pasirinkimas = int(input("Įveskite aktoriaus/ės ID: "))
                     trinamas_aktorius = session.query(Aktorius).get(aktorius_pasirinkimas)
                     if trinamas_aktorius:
+                        for spektaklis in trinamas_aktorius.spektakliai:
+                            session.delete(spektaklis)
                         session.delete(trinamas_aktorius)
                         session.commit()
                         print(f"Aktorius/ė {trinamas_aktorius} -- sėkmingai ištrintas/a.")
@@ -509,6 +510,8 @@ def delete():
                     spektaklis_pasirinkimas = int(input("Įveskite spektaklio ID: "))
                     trinamas_spektkalis = session.query(Spektaklis).get(spektaklis_pasirinkimas)
                     if trinamas_spektkalis:
+                        for aktorius in trinamas_spektkalis.aktoriai:
+                            session.delete(aktorius)
                         session.delete(trinamas_spektkalis)
                         session.commit()
                         print(f"Spektaklis {trinamas_spektkalis} -- sėkmingai ištrintas/a.")
