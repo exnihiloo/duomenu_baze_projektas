@@ -414,17 +414,19 @@ def atnaujinti_vaidmeni():
             role.vaidmuo = vaidmuo
         if spektaklis_id:
             role.spektaklis_id = spektaklis_id
+
         if aktorius_id:
             role.aktorius_id = aktorius_id
 
-            # aktorius = session.query(Aktorius).get(aktorius_choice)
-            # spektaklis = session.query(Spektaklis).get(spektaklis_choice)
-            # for spektaklis in aktorius_choice.spektakliai:
-            #     spektaklis = spektaklis_choice
-            # for aktorius in spektaklis_choice.aktoriai:
-            #     aktorius = aktorius_choice
-        
-            # spektaklis_choice.aktoriai = aktorius_choice
+            # aktorius = session.query(Aktorius).get(aktorius_id)
+            # spektaklis = session.query(Spektaklis).get(spektaklis_id)
+            # for spektaklis in aktorius.spektakliai:
+            #     if spektaklis.id != role.spektaklis_id:
+            #         aktorius.spektakliai[spektaklis_choice.id] = role.spektaklis_id
+            # for aktorius in spektaklis.aktoriai:
+            #     if aktorius.id != role.aktorius_id:
+            #         spektaklis.aktoriai[aktorius_choice.id] = role.aktorius_id
+    
             session.commit()
             print(f"Vaidmens duomenys {role} atnaujinti sėkmingai.")
 
